@@ -1,4 +1,23 @@
-*.user
-Debug/
-Release/
+# Build folders
+build/
+out/
+cmake-build-*/
+
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.pdb
+*.ilk
+
+# IDE
 .vs/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
