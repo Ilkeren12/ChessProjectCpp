@@ -1,6 +1,5 @@
 # C++ Online Satranç
 
-Bu proje GitHub'a yüklenebilir şekilde hazırlanmış saf C++17 satranç projesidir.
 
 - Windows istemci: Win32 arayüzlü satranç oyunu
 - Linux server: TCP ile iki Windows istemciyi eşleştiren online sunucu
@@ -110,7 +109,7 @@ git init
 git add .
 git commit -m "Initial C++ online chess project"
 git branch -M main
-git remote add origin https://github.com/KULLANICI_ADIN/REPO_ADIN.git
+git remote add origin https://github.com/ılkeren12.git
 git push -u origin main
 ```
 
