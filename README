@@ -1,0 +1,121 @@
+# C++ Online Satranç
+
+Bu proje GitHub'a yüklenebilir şekilde hazırlanmış saf C++17 satranç projesidir.
+
+- Windows istemci: Win32 arayüzlü satranç oyunu
+- Linux server: TCP ile iki Windows istemciyi eşleştiren online sunucu
+- Modlar: bota karşı, aynı bilgisayarda iki oyuncu, online oyuncuya karşı
+- Kurallar: yasal hamle kontrolü, şah, şah mat, pat, rok, geçerken alma, piyonun vezire dönüşmesi
+- Bot: basit minimax/negamax arama algoritması
+- Dış kütüphane yok: CMake + C++17 yeterli
+
+## Klasör yapısı
+
+```txt
+online_chess_cpp/
+├── CMakeLists.txt
+├── README.md
+├── LICENSE
+├── .gitignore
+└── src/
+    ├── common/
+    │   ├── Chess.h
+    │   └── Chess.cpp
+    ├── client/
+    │   └── WinClient.cpp
+    └── server/
+        └── LinuxTcpServer.cpp
+```
+
+## Windows istemci derleme
+
+Gerekenler:
+
+- Visual Studio 2022 veya Visual Studio Build Tools
+- CMake
+
+Komutlar:
+
+```bat
+cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+cmake --build build --config Release
+```
+
+Çalıştırılacak dosya:
+
+```bat
+build\Release\ChessWin.exe
+```
+
+Windows uygulamasında sağ panelden şunları seçebilirsin:
+
+- **Bota Karşı**: sen beyaz taşlarla oynarsın, siyahı bot oynar.
+- **2 Oyuncu**: aynı bilgisayarda sırayla iki kişi oynar.
+- **Online Bağlan**: Linux TCP server'a bağlanır.
+
+## Linux TCP server derleme
+
+Gerekenler:
+
+- g++
+- CMake
+
+Ubuntu/Debian için:
+
+```bash
+sudo apt update
+sudo apt install build-essential cmake -y
+cmake -S . -B build
+cmake --build build -j
+./build/ChessServer 5555
+```
+
+Server varsayılan olarak `5555` portunda çalışır. Portu değiştirmek için:
+
+```bash
+./build/ChessServer 6000
+```
+
+## Online oynama
+
+1. Linux makinede server'ı çalıştır:
+
+```bash
+./build/ChessServer 5555
+```
+
+2. Windows istemcide IP alanına Linux makinenin IP adresini yaz.
+3. Port alanına `5555` yaz.
+4. İki Windows istemci aynı server'a bağlanınca server otomatik eşleştirir.
+5. İlk bağlanan beyaz, ikinci bağlanan siyah olur.
+
+Aynı bilgisayarda test için iki tane Windows istemci açıp IP olarak `127.0.0.1` kullanabilirsin; server WSL/Linux tarafında çalışıyorsa WSL IP adresini veya uygun localhost yönlendirmesini kullanman gerekebilir.
+
+## Satranç kuralları
+
+Projedeki `src/common/Chess.cpp` motoru şu kontrolleri yapar:
+
+- Sıraya göre hamle
+- Taşların hareket kuralları
+- Şah kontrolü
+- Şah mat ve pat
+- Rok
+- Geçerken alma
+- Piyon terfisi; arayüzde otomatik vezir seçilir
+
+## GitHub'a yükleme
+
+```bash
+git init
+git add .
+git commit -m "Initial C++ online chess project"
+git branch -M main
+git remote add origin https://github.com/KULLANICI_ADIN/REPO_ADIN.git
+git push -u origin main
+```
+
+## Notlar
+
+- Windows arayüzü taşları Unicode satranç sembolleriyle çizer. Windows'ta `Segoe UI Symbol` fontu kullanılır.
+- Server hamleleri tekrar doğrular; istemciden geçersiz hamle gelirse reddeder.
+- Bot güçlü bir Stockfish değildir; proje dersi için anlaşılır, düzenlenebilir basit bir bot olarak yazıldı.
